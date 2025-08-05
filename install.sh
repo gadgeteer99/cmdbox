@@ -125,6 +125,9 @@ show_welcome() {
                 echo -e "  • 希望备份到云端"
                 echo -e "  • 愿意花几分钟配置"
                 echo ""
+                echo -e "${gl_huang}${WARNING} 自动选择本地模式...${gl_bai}"
+                setup_local_mode
+                break
                 ;;
         esac
     done
@@ -358,7 +361,7 @@ display_commands() {
                      (.value.description // "" | ascii_downcase | contains($keyword | ascii_downcase)))
                 )) |
                 if length > 0 then
-                    to_entries | .[] | "\(.key + 1). \(.value.name // .value.command // .value.description // "未命名")"
+                    .[] | "\(.key + 1). \(.value.name // .value.command // .value.description // "未命名")"
                 else
                     empty
                 end
