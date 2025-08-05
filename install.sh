@@ -23,6 +23,8 @@ break_end() {
     clear
 }
 
+
+
 # 颜色
 gl_hui='\e[37m'
 gl_hong='\033[31m'
@@ -538,7 +540,6 @@ execute_command() {
         echo -e "${gl_hong}${ERROR} 命令执行失败 (退出码: $exit_code)${gl_bai}"
     fi
     
-    send_stats "执行命令"
     break_end
     show_main_interface "$search_term"
 }
@@ -604,7 +605,6 @@ add_command() {
         sync_to_github
     fi
     
-    send_stats "添加命令"
     break_end
     show_main_interface
 }
@@ -677,7 +677,6 @@ edit_command() {
         sync_to_github
     fi
     
-    send_stats "编辑命令"
     break_end
     show_main_interface
 }
@@ -729,7 +728,7 @@ delete_command() {
             echo "正在自动同步..."
             sync_to_github
         fi
-        send_stats "删除命令"
+
     else
         echo "取消删除"
     fi
@@ -779,7 +778,7 @@ sync_menu() {
         esac
     fi
     
-    send_stats "同步管理"
+
     break_end
     show_main_interface
 }
@@ -871,7 +870,7 @@ config_menu() {
             ;;
     esac
     
-    send_stats "配置设置"
+
     break_end
     show_main_interface
 }
@@ -894,7 +893,7 @@ import_export_menu() {
         *) echo -e "${gl_hong}${ERROR} 无效选择${gl_bai}" ;;
     esac
     
-    send_stats "导入导出"
+
     break_end
     show_main_interface
 }
