@@ -32,11 +32,7 @@
 ## 🎯 快速开始
 
 ### 一键安装
-```bash
-# 下载并运行
-bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh)
 
-```
 ```bash
 # 或者手动下载
 wget https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh
