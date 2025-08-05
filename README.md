@@ -27,18 +27,23 @@
 ### GitHub配置
 <img width="521" height="535" alt="image" src="https://github.com/user-attachments/assets/5e6b5adb-38d2-4cec-ba32-7e675f083158" />
 秘钥不可见
+
+
 ## 🎯 快速开始
 
 ### 一键安装
 ```bash
 # 下载并运行
 bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh)
+
+```
+```bash
 # 或者手动下载
 wget https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh
 chmod +x install.sh
 ./install.sh
-```
 
+```
 脚本会自动检测并提示安装到系统，安装后全局使用 `cb` 命令。
 
 
