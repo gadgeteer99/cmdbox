@@ -2,7 +2,7 @@
 
 # 命令收藏夹 v1.0.0
 # 作者: Joey
-# GitHub: https://github.com/cmdbox/cmdbox
+# GitHub: https://github.com/byjoey/cmdbox
 # 博客: https://joeyblog.net
 # Telegram: https://t.me/+ft-zI76oovgwNmRh
 
@@ -61,7 +61,7 @@ print_header() {
     echo -e "${CYAN}${BOX_V}${RESET}                    ${DIM}高级命令收藏与快速启动器${RESET}                     ${CYAN}${BOX_V}${RESET}"
     echo -e "${CYAN}${BOX_V}${RESET}                                                                              ${CYAN}${BOX_V}${RESET}"
     echo -e "${CYAN}${BOX_V}${RESET}    ${ORANGE}${FIRE} 作者:${RESET} Joey                    ${PINK}${HEART} Telegram:${RESET} ${UNDERLINE}t.me/+ft-zI76oovgwNmRh${RESET}  ${CYAN}${BOX_V}${RESET}"
-    echo -e "${CYAN}${BOX_V}${RESET}    ${YELLOW}${LIGHTNING} GitHub:${RESET} ${UNDERLINE}github.com/cmdbox/cmdbox${RESET}     ${ORANGE}${FIRE} Blog:${RESET} ${UNDERLINE}joeyblog.net${RESET}        ${CYAN}${BOX_V}${RESET}"
+    echo -e "${CYAN}${BOX_V}${RESET}    ${YELLOW}${LIGHTNING} GitHub:${RESET} ${UNDERLINE}github.com/byjoey/cmdbox${RESET}     ${ORANGE}${FIRE} Blog:${RESET} ${UNDERLINE}joeyblog.net${RESET}        ${CYAN}${BOX_V}${RESET}"
     echo -e "${CYAN}${BOX_V}${RESET}                                                                              ${CYAN}${BOX_V}${RESET}"
     echo -e "${CYAN}${BOX_BL}$(printf "%*s" 78 | tr ' ' "${BOX_H}")${BOX_BR}${RESET}"
     echo ""
@@ -986,7 +986,7 @@ show_help() {
     echo "  - 支持本地模式和GitHub云同步"
     echo ""
     echo "链接:"
-    echo "  GitHub: https://github.com/cmdbox/cmdbox"
+    echo "  GitHub: https://github.com/byjoey/cmdbox"
     echo "  博客: https://joeyblog.net"
     echo "  Telegram: https://t.me/+ft-zI76oovgwNmRh"
 }
