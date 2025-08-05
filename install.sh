@@ -1043,30 +1043,8 @@ auto_install() {
         return  # 已经在系统路径中
     fi
     
-    # 检查是否有权限安装
-    if [[ ! -w "/usr/local/bin" ]] && ! sudo -n true 2>/dev/null; then
-        echo -e "${gl_huang}${WARNING} 检测到命令收藏夹未安装到系统${gl_bai}"
-        echo -e "${gl_huang}如需安装，请使用: ${gl_lv}sudo ./$(basename "$0")${gl_bai}"
-        echo ""
-        return  # 没有权限，跳过安装
-    fi
-    
-    echo -e "${gl_kjlan}${ROCKET} 检测到命令收藏夹未安装到系统${gl_bai}"
-    echo ""
-    echo -e "${gl_huang}安装后的好处：${gl_bai}"
-    echo -e "  • 全局使用 ${gl_lv}cb${gl_bai} 命令"
-    echo -e "  • 在任何目录下都能快速启动"
-    echo -e "  • 更便捷的命令管理体验"
-    echo ""
-    
-    read -e -p "是否现在安装到系统？[Y/n]: " install_choice
-    
-    if [[ "$install_choice" != "n" && "$install_choice" != "N" ]]; then
-        install_to_system
-    else
-        echo -e "${DIM}跳过安装，你仍可以直接运行此脚本${gl_bai}"
-        echo ""
-    fi
+    # 静默跳过安装提示，直接运行脚本
+    return
 }
 
 install_to_system() {
