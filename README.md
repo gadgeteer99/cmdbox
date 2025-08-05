@@ -202,11 +202,19 @@ chmod +x install.sh
 ## 👨‍💻 作者
 
 **Joey**
-- GitHub: [@joey](https://github.com/joey)
+- GitHub: [@byjoey](https://github.com/byjoey)
 - 博客: [joeyblog.net](https://joeyblog.net)
 
 ---
 
 ⭐ 如果这个项目对你有帮助，请给个Star支持一下！
 
-![Star历史](images/star-history.png)
+## Star History
+
+<a href="https://www.star-history.com/#byJoey/cmdbox&Timeline">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=byJoey/cmdbox&type=Timeline&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=byJoey/cmdbox&type=Timeline" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=byJoey/cmdbox&type=Timeline" />
+ </picture>
+</a>
