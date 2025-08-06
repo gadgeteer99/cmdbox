@@ -1,5 +1,39 @@
 #!/bin/bash
 
+# 自动安装到系统
+auto_install() {
+    echo "正在自动安装命令收藏夹..."
+    
+    # 检查是否已经安装
+    if command -v cb >/dev/null 2>&1; then
+        echo "命令收藏夹已安装，正在更新..."
+    fi
+    
+    # 尝试自动安装
+    if sudo cp "$0" /usr/local/bin/cb 2>/dev/null; then
+        sudo chmod +x /usr/local/bin/cb
+        echo -e "${gl_lv}${SUCCESS} 安装成功！${gl_bai}"
+        echo "现在可以使用 'cb' 命令启动脚本"
+        
+        # 直接运行新安装的脚本
+        exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
+    else
+        echo -e "${gl_hong}${ERROR} 自动安装失败，可能需要管理员权限${gl_bai}"
+        echo "请手动安装："
+        echo "sudo cp $0 /usr/local/bin/cb"
+        echo "sudo chmod +x /usr/local/bin/cb"
+        echo ""
+        echo "或者直接运行："
+        echo "bash $0"
+    fi
+}
+
+# 如果脚本是通过 curl 下载运行的，自动安装
+if [[ "${BASH_SOURCE[0]}" == "/dev/fd/"* ]]; then
+    auto_install
+    exit 0
+fi
+
 # 命令收藏夹 v1.0.0
 # 作者: Joey
 # GitHub: https://github.com/byjoey/cmdbox
