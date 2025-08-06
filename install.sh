@@ -98,6 +98,24 @@ break_end() {
     clear
 }
 
+# 静默同步（不显示错误信息）
+sync_from_github_silent() {
+    if [[ "$SYNC_MODE" != "github" || -z "$GITHUB_REPO" || -z "$GITHUB_TOKEN" ]]; then
+        return 1
+    fi
+    
+    local response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+        "https://api.github.com/repos/$GITHUB_REPO/contents/commands.json")
+    
+    if echo "$response" | jq -e '.content' >/dev/null 2>&1; then
+        local content=$(echo "$response" | jq -r '.content')
+        echo "$content" | base64 -d > "$COMMANDS_FILE" 2>/dev/null || echo "$content" | base64 -d > "$COMMANDS_FILE"
+        return 0
+    else
+        return 1
+    fi
+}
+
 
 
 # 颜色
@@ -1077,6 +1095,16 @@ main() {
     
     init_config
     load_config
+    
+    # 如果是GitHub模式，每次运行都同步
+    if [[ "$SYNC_MODE" == "github" ]]; then
+        echo -e "${gl_kjlan}正在从GitHub同步命令...${gl_bai}"
+        if ! sync_from_github_silent; then
+            echo -e "${gl_lv}${SUCCESS} 初始化成功！${gl_bai}"
+        else
+            echo -e "${gl_lv}${SUCCESS} 同步成功！${gl_bai}"
+        fi
+    fi
     
     case "${1:-}" in
         -h|--help)
