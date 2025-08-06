@@ -33,10 +33,7 @@
 ```bash
 # 下载并运行
 bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh)
-# 或者手动下载
-wget https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh
-chmod +x install.sh
-./install.sh
+
 ```
 
 脚本会自动检测并提示安装到系统，安装后全局使用 `cb` 命令。
