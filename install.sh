@@ -2,6 +2,8 @@
 
 # 自动安装到系统
 auto_install() {
+
+    
     echo "正在自动安装命令收藏夹..."
     
     # 检查是否已经安装
@@ -37,7 +39,11 @@ EOF
         fi
         
         # 直接运行新安装的脚本
-        exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
+        if [[ -n "${CMDBOX_ARGS[*]}" ]]; then
+            exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${CMDBOX_ARGS[@]}"
+        else
+            exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
+        fi
     else
         # 如果直接复制失败，尝试使用 sudo
         if sudo cp "$script_path" /usr/local/bin/cb 2>/dev/null; then
@@ -51,7 +57,11 @@ EOF
             fi
             
             # 直接运行新安装的脚本
-            exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
+            if [[ -n "${CMDBOX_ARGS[*]}" ]]; then
+                exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${CMDBOX_ARGS[@]}"
+            else
+                exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
+            fi
         else
             echo -e "${gl_hong}${ERROR} 自动安装失败，可能需要管理员权限${gl_bai}"
             echo "请手动安装："
@@ -71,6 +81,8 @@ EOF
 
 # 如果脚本是通过 curl 下载运行的，自动安装
 if [[ "${BASH_SOURCE[0]}" == "/dev/fd/"* ]] || [[ "${BASH_SOURCE[0]}" == "/proc/self/fd/"* ]]; then
+    # 保存参数到环境变量
+    export CMDBOX_ARGS=("$@")
     auto_install
     exit 0
 fi
@@ -147,7 +159,7 @@ print_header() {
     clear
     echo -e "${gl_kjlan}"
 
-    echo -e "命令收藏夹 v1.0.8"
+    echo -e "命令收藏夹 v1.0.3"
     echo -e "命令行输入${gl_huang}cb${gl_kjlan}可快速启动脚本${gl_bai}"
     echo -e "${gl_kjlan}------------------------${gl_bai}"
     echo -e "${gl_kjlan}作者:${gl_bai} Joey                    ${gl_kjlan}Telegram:${gl_bai} ${UNDERLINE}t.me/+ft-zI76oovgwNmRh${gl_bai}"
@@ -1129,11 +1141,18 @@ show_version() {
 }
 
 main() {
-    # 检查命令行参数
-    if [[ "$1" == "--sync" && -n "$2" && -n "$3" ]]; then
+    # 检查命令行参数（包括通过curl下载时的传参）
+    if [[ "$1" == "--sync" && -n "$2" && -n "$3" ]] || [[ "${CMDBOX_ARGS[0]}" == "--sync" && -n "${CMDBOX_ARGS[1]}" && -n "${CMDBOX_ARGS[2]}" ]]; then
         # 传参同步模式
-        local repo="$2"
-        local token="$3"
+        local repo=""
+        local token=""
+        if [[ "$1" == "--sync" && -n "$2" && -n "$3" ]]; then
+            repo="$2"
+            token="$3"
+        elif [[ "${CMDBOX_ARGS[0]}" == "--sync" && -n "${CMDBOX_ARGS[1]}" && -n "${CMDBOX_ARGS[2]}" ]]; then
+            repo="${CMDBOX_ARGS[1]}"
+            token="${CMDBOX_ARGS[2]}"
+        fi
         echo -e "${gl_kjlan}正在使用传参同步到GitHub...${gl_bai}"
         
         # 设置GitHub配置
