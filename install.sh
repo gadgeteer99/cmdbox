@@ -147,7 +147,7 @@ print_header() {
     clear
     echo -e "${gl_kjlan}"
 
-    echo -e "命令收藏夹 v1.0.3"
+    echo -e "命令收藏夹 v1.0.8"
     echo -e "命令行输入${gl_huang}cb${gl_kjlan}可快速启动脚本${gl_bai}"
     echo -e "${gl_kjlan}------------------------${gl_bai}"
     echo -e "${gl_kjlan}作者:${gl_bai} Joey                    ${gl_kjlan}Telegram:${gl_bai} ${UNDERLINE}t.me/+ft-zI76oovgwNmRh${gl_bai}"
@@ -884,7 +884,7 @@ sync_to_github() {
     
     echo "正在同步到GitHub..."
     
-    local content=$(base64 -w 0 "$COMMANDS_FILE" 2>/dev/null || base64 "$COMMANDS_FILE")
+    local content=$(base64 -w 0 "$COMMANDS_FILE" 2>/dev/null || base64 -b 0 "$COMMANDS_FILE" 2>/dev/null || base64 -i "$COMMANDS_FILE" 2>/dev/null || base64 "$COMMANDS_FILE")
     
     local sha_response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
         "https://api.github.com/repos/$GITHUB_REPO/contents/commands.json")
@@ -938,6 +938,7 @@ config_menu() {
     echo ""
     echo -e "${gl_kjlan}1.   ${gl_bai}查看当前配置"
     echo -e "${gl_kjlan}2.   ${gl_bai}重新配置GitHub"
+    echo -e "${gl_kjlan}3.   ${gl_bai}导出快速连接"
     echo -e "${gl_kjlan}------------------------${gl_bai}"
     echo -e "${gl_kjlan}0.   ${gl_bai}返回主界面"
     echo -e "${gl_kjlan}------------------------${gl_bai}"
@@ -953,6 +954,9 @@ config_menu() {
             ;;
         2)
             setup_github_mode
+            ;;
+        3)
+            export_quick_connect
             ;;
         0)
             show_main_interface
@@ -1052,6 +1056,43 @@ import_commands() {
     show_main_interface
 }
 
+# 导出快速连接
+export_quick_connect() {
+    print_header
+    echo -e "${gl_lan}${BOLD}导出快速连接${gl_bai}"
+    echo ""
+    
+    if [[ "$SYNC_MODE" != "github" || -z "$GITHUB_REPO" || -z "$GITHUB_TOKEN" ]]; then
+        echo -e "${gl_hong}${ERROR} 当前不是GitHub模式或配置不完整${gl_bai}"
+        echo "请先配置GitHub同步"
+        break_end
+        return
+    fi
+    
+    echo -e "${gl_kjlan}${BOLD}当前GitHub配置：${gl_bai}"
+    echo "仓库: $GITHUB_REPO"
+    echo "Token: $GITHUB_TOKEN"
+    echo ""
+    
+    echo -e "${gl_kjlan}${BOLD}传参同步命令：${gl_bai}"
+    echo ""
+    echo -e "${gl_lv}./install.sh --sync \"$GITHUB_REPO\" \"$GITHUB_TOKEN\"${gl_bai}"
+    echo ""
+    echo -e "${gl_kjlan}${BOLD}一键安装并同步命令：${gl_bai}"
+    echo ""
+    echo -e "${gl_lv}bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh) --sync \"$GITHUB_REPO\" \"$GITHUB_TOKEN\"${gl_bai}"
+    echo ""
+    echo -e "${gl_kjlan}${BOLD}使用说明：${gl_bai}"
+    echo "• 复制上面的命令到新机器执行"
+    echo "• 会自动安装并同步到GitHub"
+    echo "• 无需手动配置GitHub信息"
+    echo ""
+    echo -e "${gl_huang}${BOLD}注意：${gl_bai}"
+    echo "• Token 包含敏感信息，请妥善保管"
+    echo "• 建议在安全环境下使用"
+    echo ""
+}
+
 show_help() {
     echo -e "${gl_kjlan}命令收藏夹 - 高级命令收藏与快速启动器${gl_bai}"
     echo ""
@@ -1062,13 +1103,19 @@ show_help() {
     echo "  -v, --version  显示版本信息"
     echo "  -m, --manage   直接进入管理模式"
     echo "  -s, --sync     手动同步到GitHub"
+    echo "  --sync <repo> <token>  传参同步到GitHub"
     echo "  --reset        重置配置（重新选择模式）"
+    echo ""
+    echo "传参同步示例:"
+    echo "  cb --sync \"username/repo\" \"your_token\""
+    echo "  bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh) --sync \"username/repo\" \"your_token\""
     echo ""
     echo "使用说明:"
     echo "  - 直接运行显示命令列表，输入数字直接执行命令 (无需确认)"
     echo "  - 输入关键词搜索命令"
     echo "  - 输入 'm' 进入管理模式添加/编辑命令"
     echo "  - 支持本地模式和GitHub云同步"
+    echo "  - 支持传参快速同步到GitHub"
     echo ""
     echo "链接:"
     echo "  GitHub: https://github.com/byjoey/cmdbox"
@@ -1082,9 +1129,29 @@ show_version() {
 }
 
 main() {
-    # 自动安装功能
-    auto_install
+    # 检查命令行参数
+    if [[ "$1" == "--sync" && -n "$2" && -n "$3" ]]; then
+        # 传参同步模式
+        local repo="$2"
+        local token="$3"
+        echo -e "${gl_kjlan}正在使用传参同步到GitHub...${gl_bai}"
+        
+        # 设置GitHub配置
+        cat > "$CONFIG_FILE" << EOF
+SYNC_MODE=github
+GITHUB_REPO="$repo"
+GITHUB_TOKEN="$token"
+EOF
+        
+        # 同步到GitHub
+        SYNC_MODE="github"
+        GITHUB_REPO="$repo"
+        GITHUB_TOKEN="$token"
+        sync_to_github
+        exit 0
+    fi
     
+    # 检查jq依赖
     if ! command -v jq &> /dev/null; then
         echo -e "${gl_hong}${ERROR} 错误: 需要安装 jq${gl_bai}"
         echo "Ubuntu/Debian: sudo apt install jq"
@@ -1092,6 +1159,9 @@ main() {
         echo "macOS: brew install jq"
         exit 1
     fi
+    
+    # 自动安装功能
+    auto_install
     
     init_config
     load_config
@@ -1178,7 +1248,7 @@ auto_install() {
         echo -e "${gl_kjlan}正在启动安装的版本...${gl_bai}"
         sleep 1
         # 清除环境变量，只传递位置参数
-        env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb
+        env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
         exit $?
     else
         echo -e "${gl_hong}${ERROR} 自动安装失败，可能需要管理员权限${gl_bai}"
