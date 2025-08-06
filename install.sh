@@ -38,10 +38,12 @@ EOF
             rm -f "/tmp/cmdbox_install_$$.sh"
         fi
         
-        # 直接运行新安装的脚本
-        if [[ -n "${CMDBOX_ARGS[*]}" ]]; then
+        # 检查是否是传参同步模式
+        if [[ -n "${CMDBOX_ARGS[*]}" && "${CMDBOX_ARGS[0]}" == "--sync" && -n "${CMDBOX_ARGS[1]}" && -n "${CMDBOX_ARGS[2]}" ]]; then
+            # 传参同步模式，直接运行新安装的脚本并传递参数
             exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${CMDBOX_ARGS[@]}"
         else
+            # 普通模式，直接运行新安装的脚本
             exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
         fi
     else
@@ -56,10 +58,12 @@ EOF
                 rm -f "/tmp/cmdbox_install_$$.sh"
             fi
             
-            # 直接运行新安装的脚本
-            if [[ -n "${CMDBOX_ARGS[*]}" ]]; then
+            # 检查是否是传参同步模式
+            if [[ -n "${CMDBOX_ARGS[*]}" && "${CMDBOX_ARGS[0]}" == "--sync" && -n "${CMDBOX_ARGS[1]}" && -n "${CMDBOX_ARGS[2]}" ]]; then
+                # 传参同步模式，直接运行新安装的脚本并传递参数
                 exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${CMDBOX_ARGS[@]}"
             else
+                # 普通模式，直接运行新安装的脚本
                 exec env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" cb "${@:-}"
             fi
         else
@@ -1141,19 +1145,15 @@ show_version() {
 }
 
 main() {
-    # 检查命令行参数（包括通过curl下载时的传参）
-    if [[ "$1" == "--sync" && -n "$2" && -n "$3" ]] || [[ "${CMDBOX_ARGS[0]}" == "--sync" && -n "${CMDBOX_ARGS[1]}" && -n "${CMDBOX_ARGS[2]}" ]]; then
+    # 检查命令行参数
+    if [[ "$1" == "--sync" && -n "$2" && -n "$3" ]]; then
         # 传参同步模式
-        local repo=""
-        local token=""
-        if [[ "$1" == "--sync" && -n "$2" && -n "$3" ]]; then
-            repo="$2"
-            token="$3"
-        elif [[ "${CMDBOX_ARGS[0]}" == "--sync" && -n "${CMDBOX_ARGS[1]}" && -n "${CMDBOX_ARGS[2]}" ]]; then
-            repo="${CMDBOX_ARGS[1]}"
-            token="${CMDBOX_ARGS[2]}"
-        fi
+        local repo="$2"
+        local token="$3"
         echo -e "${gl_kjlan}正在使用传参同步到GitHub...${gl_bai}"
+        
+        # 确保配置目录存在
+        mkdir -p "$CONFIG_DIR"
         
         # 设置GitHub配置
         cat > "$CONFIG_FILE" << EOF
@@ -1161,6 +1161,11 @@ SYNC_MODE=github
 GITHUB_REPO="$repo"
 GITHUB_TOKEN="$token"
 EOF
+        
+        # 确保命令文件存在
+        if [[ ! -f "$COMMANDS_FILE" ]]; then
+            echo '[]' > "$COMMANDS_FILE"
+        fi
         
         # 同步到GitHub
         SYNC_MODE="github"
